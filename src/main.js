@@ -23,3 +23,48 @@ const itemData = {
         score: 36
     }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('items');
+    const img = document.getElementById('displayImage');
+    const photographer = document.getElementById('photographer');
+    const description = document.getElementById('description');
+    const score = document.getElementById('score');
+    const btnUp = document.getElementById('increaseScore');
+    const btnDown = document.getElementById('decreaseScore');
+
+    Object.entries(itemData).forEach(([key, item], idx) => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = item.name;
+        select.appendChild(option);
+    });
+
+    let currentKey = null;
+
+    function mostrarItem(key) {
+        const item = itemData[key];
+        if (!item) return;
+        img.src = item.image;
+        photographer.value = item.photographer;
+        description.value = item.description;
+        score.value = item.score;
+        currentKey = key;
+    }
+
+    select.addEventListener('change', (e) => {
+        mostrarItem(e.target.value);
+    });
+
+    btnUp.addEventListener('click', () => {
+        if (!currentKey) return;
+        itemData[currentKey].score++;
+        score.value = itemData[currentKey].score;
+    });
+
+    btnDown.addEventListener('click', () => {
+        if (!currentKey) return;
+        itemData[currentKey].score--;
+        score.value = itemData[currentKey].score;
+    });
+});
